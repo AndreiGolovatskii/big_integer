@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "g++ build main",
+      "command": "g++",
+      "args": [
+        "-g",
+        // "-O2",
+        "-W",
+        "-Wall",
+        "-Wno-unknown-pragmas",
+        "-Wpointer-arith",
+        "-Wcast-align",
+        "-Wcast-qual",
+        "-Wsign-compare",
+        "-Wconversion",
+        "${fileDirname}/main.cpp",
+        "-Werror",
+        "-o",
+        "${fileDirname}/main"
+      ],
+      "options": {
+        "cwd": "/bin"
+      }
+    },
+  ],
+  "version": "2.0.0"
+}
