@@ -96,7 +96,6 @@ bigInteger bigInteger::operator-() const {
 }
 
 bigInteger bigInteger::operator-(const bigInteger &b) const {
-  bigInteger result;
   if(sign == 1 && b.sign == 1) {
     if(moduloLess(b)) {
       result = b.moduloDifference(*this);
@@ -116,7 +115,6 @@ bigInteger bigInteger::operator-(const bigInteger &b) const {
         result.sign = sign ^ 1;
     }
   }
-  return result;
 }
 
 bigInteger bigInteger::operator+(const bigInteger &b) const {
