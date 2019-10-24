@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: Generate Test File",
+      "type": "python",
+      "request": "launch",
+      "program": "${fileDirname}/testGen.py",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "g++ build and debug main",
       "type": "cppdbg",
       "request": "launch",
