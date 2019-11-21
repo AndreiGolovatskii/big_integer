@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include "fast_fourier_transform.cpp"
+
 template<typename T>
 void reverse(T &x) {
   for(size_t i = 0; i < x.size() / 2; ++i) {
@@ -290,25 +292,22 @@ BigInteger operator--(BigInteger &a, int) {
 }
 
 BigInteger &BigInteger::operator*=(const BigInteger &b) {
-  BigInteger res;
-  res.isPositive = this->isPositive == b.isPositive;
-  res.values.resize(this->values.size() + b.values.size(), 0);
-  for(size_t i = 0; i < this->values.size(); ++i) {
-    for(size_t j = 0; j < b.values.size(); ++j) {
-      res.values[i + j] += this->values[i] * b.values[j];
+  std::vector<long long> fa = multiply_polynomials(this->values, b.values);
+
+  long long o = 0;
+  for(int i = 0; i < fa.size(); ++i) {
+    fa[i] += o;
+    o = 0;
+    if(fa[i] >= BASE) {
+      o = fa[i] / BASE;
+      fa[i] %= BASE;
     }
   }
-  *this = res;
-  for(size_t i = 0; i < values.size(); ++i) {
-    if(values[i] >= BASE) {
-      if(i + 1 == values.size()) {
-        values.push_back(0);
-      }
-      values[i + 1] += values[i] / BASE;
-      values[i] %= BASE;
-    }
-  }
+
+  this->values = std::move(fa);
+  this->isPositive ^= !b.isPositive;
   eraseLeadingZeros();
+  
   return *this;
 }
 
