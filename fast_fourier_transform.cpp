@@ -79,21 +79,41 @@ std::vector<long long> toLongLong(const std::vector<std::complex<double>> &a) {
   return result;
 }
 
+std::vector<std::complex<double>> twoInOne(const std::vector<long long> &a, const std::vector<long long> &b, int log_n) {
+  std::vector<std::complex<double>> c(1 << log_n, std::complex<double>(0, 0));
+  for(size_t i = 0; i < a.size(); ++i) {
+    c[i].real(a[i]);
+  }
+  for(size_t i = 0; i < b.size(); ++i) {
+    c[i].imag(b[i]);
+  }
+  return c;
+}
+
+std::pair<std::vector<std::complex<double>>, std::vector<std::complex<double>>> separate(const std::vector<std::complex<double>> &res) {
+  std::vector<std::complex<double>> a(res.size()), b(res.size());
+  for(size_t i = 0; i < res.size(); ++i) {
+    a[i] = 0.5 * (res[i] + std::conj(res[res.size() - i - 1]));
+    b[i] = 0.5 * (-res[i] + std::conj(res[res.size() - i - 1])) * std::complex<double>(0, 1);
+  }
+  return make_pair(a, b);
+}
+
 std::vector<long long> multiply_polynomials(const std::vector<long long> &a, const std::vector<long long> &b) {
   int log_n = 0;
   while((1 << log_n) < 2 * static_cast<int>(std::max(a.size(), b.size()))) {
     ++log_n;
   }
-
-  std::vector<std::complex<double>> ca = toComplex(a, log_n);
-  std::vector<std::complex<double>> cb = toComplex(b, log_n);
-
+    
   std::vector<int> rev = revBit(log_n);
   std::vector<std::complex<double>> root = roots(log_n);
 
-  std::vector<std::complex<double>> ra = fft(ca, rev, root);
-  std::vector<std::complex<double>> rb = fft(cb, rev, root);
+  std::vector<std::complex<double>> cab = twoInOne(a, b, log_n);
 
+  auto res = separate(fft(cab, rev, root));
+
+  std::vector<std::complex<double>> &ra = res.first, &rb = res.second;
+  
   for(size_t i = 0; i < ra.size(); ++i) {
     ra[i] *= rb[i];
   }

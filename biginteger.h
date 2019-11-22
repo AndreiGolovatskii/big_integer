@@ -257,7 +257,7 @@ BigInteger &BigInteger::operator-=(const BigInteger &b) {
   return *this;
 }
 
-BigInteger operator-(const BigInteger &a, const BigInteger &b) {
+const BigInteger operator-(const BigInteger &a, const BigInteger &b) {
   BigInteger res = a;
   return res -= b;
 }
@@ -311,12 +311,12 @@ BigInteger &BigInteger::operator*=(const BigInteger &b) {
   return *this;
 }
 
-BigInteger operator*(const BigInteger &a, const BigInteger &b) {
+const BigInteger operator*(const BigInteger &a, const BigInteger &b) {
   BigInteger res = a;
   return res *= b;
 }
 
-BigInteger operator/(const BigInteger &a, const BigInteger &b) {
+const BigInteger operator/(const BigInteger &a, const BigInteger &b) {
   BigInteger res = a;
   return res /= b;
 }
@@ -376,7 +376,7 @@ BigInteger &BigInteger::operator%=(const BigInteger &b) {
   return *this -= *this / b * b;
 }
 
-BigInteger operator%(const BigInteger &a, const BigInteger &b) {
+const BigInteger operator%(const BigInteger &a, const BigInteger &b) {
   BigInteger res = a;
   return res %= b;
 }
