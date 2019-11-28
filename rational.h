@@ -195,8 +195,30 @@ std::string Rational::asDecimal(size_t percision) const {
   }
 }
 
+Rational abs(const Rational &a) {
+  if (a < 0) {
+    return -a;
+  }
+  return a;
+}
+
 Rational::operator double() const {
-  return std::stod(asDecimal(30));
+  if (*this == 0) {
+    return 0.0;
+  }
+  Rational tmp = *this;
+  double res = 1;
+  while (abs(tmp) >= 10) {
+    tmp.denom_ *= 10;
+    res *= 10;
+  }
+  while (abs(tmp) < 1) {
+    tmp.num_ *= 10;
+    res /= 10;
+  }
+
+  res *= std::stod(tmp.asDecimal(20));
+  return res;
 }
 
 #endif  // RATIONAL_H_

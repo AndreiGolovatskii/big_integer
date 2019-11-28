@@ -4,6 +4,8 @@
 using namespace std;
 
 int main(){
-  Rational a;
-  
+  Rational a(1);
+  BigInteger b(1000000);
+  b *= b;
+  cout << double(a / b);
 }
